@@ -1,0 +1,70 @@
+managed;
+with draft;
+define behavior for ZI_Dev alias Development
+implementation in class zbp_i_dev unique
+persistent table zab_dev
+draft table zab_ddev
+lock master total etag LocalLastChangedAt
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _Comment { create; with draft; }
+  field ( numbering : managed, readonly ) DevUuid;
+  field ( readonly ) DevId;
+  field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+  field ( mandatory ) ShortDescription;
+
+  mapping for zab_dev
+  {
+    DevUuid = dev_uuid;
+    DevId = dev_id;
+    UserDepartment = user_department;
+    PlannedStart = planned_start;
+    PlannedEnd = planned_end;
+    TimePlanned = time_planned;
+    TimeSpent = time_spent;
+    TimeLeft = time_left;
+    TimeUnit = time_unit;
+    ShortDescription = short_description;
+    LongDescription = long_description;
+    OverallStatus = overall_status;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedBy = last_changed_by;
+    LastChangedAt = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_DevComment alias Comment
+implementation in class zbp_i_dev_comment unique
+persistent table zab_dev_comment
+draft table zab_zdev_comment
+lock dependent by _Development
+authorization dependent by _Development
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  association _Development { with draft; }
+  field ( numbering : managed, readonly ) CommentUuid;
+  field ( readonly ) CommentCount, DevUuid;
+  field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+  field ( mandatory ) CommentText;
+
+  mapping for zab_dev_comment
+  {
+    CommentUuid = comment_uuid;
+    DevUuid = dev_uuid;
+    CommentCount = comment_count;
+    CommentText = comment_text;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedAt = last_changed_at;
+    LastChangedBy = last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

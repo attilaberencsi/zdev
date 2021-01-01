@@ -17,6 +17,8 @@ etag master LocalLastChangedAt
   field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) ShortDescription;
 
+  determination getNextDevID on save {create;}
+
   mapping for zab_dev
   {
     DevUuid = dev_uuid;
@@ -54,6 +56,8 @@ etag master LocalLastChangedAt
   field ( readonly ) CommentCount, DevUuid;
   field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) CommentText;
+
+  determination getNextCommentNum on modify {create;}
 
   mapping for zab_dev_comment
   {

@@ -1,0 +1,5 @@
+@EndUserText.label: 'Developments'
+define service ZUI_DEV {
+  expose ZC_Dev;
+  expose ZC_DevComment;
+}

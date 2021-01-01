@@ -1,0 +1,86 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: { typeName: 'Development',
+                typeNamePlural: 'Developments',
+                title: { type: #STANDARD, label: 'ShortDescription', value: 'DevId' } },
+  presentationVariant: [{ sortOrder: [{ by: 'DevId', direction:  #DESC }] }] }
+annotate view ZC_Dev with
+{
+  @UI.facet: [ { id:            'Development',
+               purpose:         #STANDARD,
+               type:            #IDENTIFICATION_REFERENCE,
+               label:           'Development',
+               position:        10 },
+             { id:              'Comments',
+               purpose:         #STANDARD,
+               type:            #LINEITEM_REFERENCE,
+               label:           'Comments',
+               position:        20,
+               targetElement:   '_Comment'} ]
+
+
+  @UI.hidden: true
+  DevUuid;
+
+  @UI: {  lineItem:       [ { position: 10 } ],
+          identification: [ { position: 10 } ],
+          selectionField: [ { position: 10 } ] }
+  DevId;
+
+  @UI: {  lineItem:       [ { position: 20 } ],
+          identification: [ { position: 20 } ],
+          selectionField: [ { position: 20 } ] }
+  ShortDescription;
+
+  @UI: {  lineItem:       [ { position: 30 } ],
+          identification: [ { position: 30 } ],
+          selectionField: [ { position: 30 } ] }
+  UserDepartment;
+
+  @UI: {  lineItem:       [ { position: 40 } ],
+          identification: [ { position: 40 } ] }
+  PlannedStart;
+
+  @UI: {  lineItem:       [ { position: 50 } ],
+        identification: [ { position: 50 } ] }
+  PlannedEnd;
+
+  @UI: {  lineItem:       [ { position: 60 } ],
+          identification: [ { position: 60 } ] }
+  TimePlanned;
+
+  @UI: {  lineItem:       [ { position: 70 } ],
+          identification: [ { position: 70 } ] }
+  TimeSpent;
+
+  @UI: {  lineItem:       [ { position: 80 } ],
+          identification: [ { position: 80 } ] }
+  TimeLeft;
+
+  @UI: {  lineItem:       [ { position: 90 } ],
+          identification: [ { position: 90 } ] }
+  TimeUnit;
+
+
+  @UI: {  lineItem:       [ { position: 100 } ],
+          identification: [ { position: 100 } ] }
+  OverallStatus;
+
+  @UI: { identification: [ { position: 110 } ], multiLineText: true}
+  LongDescription;
+
+  @UI: { identification: [ { position: 120 } ] }
+  CreatedBy;
+
+  @UI: { identification: [ { position: 120 } ] }
+  CreatedAt;
+
+  @UI: { identification: [ { position: 130 } ] }
+  LastChangedBy;
+  @UI: { identification: [ { position: 140 } ] }
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+
+}

@@ -25,7 +25,7 @@
      <DOMNAME>ZDO_DEV_STATUS</DOMNAME>
      <VALPOS>0002</VALPOS>
      <DDLANGUAGE>E</DDLANGUAGE>
-     <DOMVALUE_L>Spec Ready</DOMVALUE_L>
+     <DOMVALUE_L>SpecReady</DOMVALUE_L>
      <DDTEXT>Specification Ready</DDTEXT>
     </DD07V>
     <DD07V>

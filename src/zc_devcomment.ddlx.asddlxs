@@ -3,7 +3,7 @@
   headerInfo: { typeName: 'Comment',
                 typeNamePlural: 'Comments',
                 title: { type: #STANDARD, value: 'CommentCount' } } }
-
+@UI.presentationVariant: [{ sortOrder: [{ by: 'CommentCount', direction: #DESC }] }]
 annotate view ZC_DevComment with
 {
   @UI.facet: [ { id:            'Comment',

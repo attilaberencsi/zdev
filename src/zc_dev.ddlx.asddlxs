@@ -2,8 +2,10 @@
 @UI: {
   headerInfo: { typeName: 'Development',
                 typeNamePlural: 'Developments',
-                title: { type: #STANDARD, label: 'ShortDescription', value: 'DevId' } },
-  presentationVariant: [{ sortOrder: [{ by: 'DevId', direction:  #DESC }] }] }
+                title: { type: #STANDARD, label: 'ShortDescription', value: 'DevId' } }
+
+   }
+@UI.presentationVariant: [{ sortOrder: [{ by: 'DevId', direction: #DESC }] }]
 annotate view ZC_Dev with
 {
   @UI.facet: [ { id:            'Development',
@@ -17,7 +19,6 @@ annotate view ZC_Dev with
                label:           'Comments',
                position:        20,
                targetElement:   '_Comment'} ]
-
 
   @UI.hidden: true
   DevUuid;

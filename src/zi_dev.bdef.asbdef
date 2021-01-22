@@ -12,12 +12,17 @@ etag master LocalLastChangedAt
   update;
   delete;
   association _Comment { create; with draft; }
+  association _Booking { create; with draft; }
   field ( numbering : managed, readonly ) DevUuid;
   field ( readonly ) DevId;
-  field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+  field ( readonly ) TimeSpent, TimeUnit, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) ShortDescription;
 
-  determination getNextDevID on save {create;}
+  action ( features : instance ) AddTimeSpent parameter ZAE_DevActionAddTimeInput result [1] $self;
+  internal action recalcTotalTime;
+
+  determination setDefaultValues on modify { create; }
+  determination getNextDevID on save { create; }
 
   mapping for zab_dev
   {
@@ -57,7 +62,7 @@ etag master LocalLastChangedAt
   field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) CommentText;
 
-  determination getNextCommentNum on modify {create;}
+  determination getNextCommentNum on modify { create; }
 
   mapping for zab_dev_comment
   {
@@ -65,6 +70,42 @@ etag master LocalLastChangedAt
     DevUuid = dev_uuid;
     CommentCount = comment_count;
     CommentText = comment_text;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedAt = last_changed_at;
+    LastChangedBy = last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZI_DevBooking alias Booking
+implementation in class zbp_i_dev_booking unique
+persistent table zab_dev_booking
+draft table zab_zdev_booking
+lock dependent by _Development
+authorization dependent by _Development
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  association _Development { with draft; }
+  field ( numbering : managed, readonly ) BookingUuid;
+  field ( readonly ) BookCount, DevUuid;
+  field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+  field ( mandatory ) BookingText;
+
+  determination getNextCommentNum on modify { create; }
+  determination calculateTotalTime on modify { create; delete; update; }
+
+
+  mapping for zab_dev_booking
+  {
+    BookingUuid = booking_uuid;
+    DevUuid = dev_uuid;
+    BookCount = book_count;
+    TimeSpent = time_spent;
+    TimeUnit = time_unit;
+    BookingText = booking_text;
     CreatedBy = created_by;
     CreatedAt = created_at;
     LastChangedAt = last_changed_at;

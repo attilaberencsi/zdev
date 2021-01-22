@@ -3,6 +3,8 @@
 define root view entity ZI_Dev
   as select from zab_dev
   composition [0..*] of ZI_DevComment as _Comment
+  composition [0..*] of ZI_DevBooking as _Booking
+
 {
   key dev_uuid              as DevUuid,
       dev_id                as DevId,
@@ -28,5 +30,6 @@ define root view entity ZI_Dev
       local_last_changed_at as LocalLastChangedAt,
 
       --Associations
-      _Comment
+      _Comment,
+      _Booking
 }

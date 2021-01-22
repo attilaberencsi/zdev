@@ -1,0 +1,43 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: { typeName: 'Worktime',
+                typeNamePlural: 'Bookings',
+                title: { type: #STANDARD, value: 'BookingText' } } }
+@UI.presentationVariant: [{ sortOrder: [{ by: 'CreatedAt', direction: #DESC }] }]
+annotate view ZC_DevBooking with
+{
+  @UI.facet: [ { id:            'Comment',
+                 purpose:       #STANDARD,
+                 type:          #IDENTIFICATION_REFERENCE,
+                 label:         'Comment',
+                 position:      10 }  ]
+
+  @UI.hidden: true
+  BookingUuid;
+  @UI.hidden: true
+  DevUuid;
+  @UI.hidden: true
+  BookCount;
+  @UI: { lineItem:       [ { position: 20 } ],
+         identification: [ { position: 20 } ] }
+  TimeSpent;
+  @UI: { lineItem:       [ { position: 30 } ],
+         identification: [ { position: 30 } ] }
+  @Consumption.valueHelpDefinition: [{entity: {name: 'I_UnitOfMeasureStdVH', element: 'UnitOfMeasure' }}]        
+  TimeUnit;
+  @UI: { lineItem:       [ { position: 10 } ],
+         identification: [ { position: 10 } ] }
+  BookingText;
+  @UI: { lineItem:       [ { position: 40 } ],
+         identification: [ { position: 40 } ] }
+  CreatedBy;
+  @UI: { lineItem:       [ { position: 50 } ],
+         identification: [ { position: 50 } ] }
+  CreatedAt;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LastChangedAt;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

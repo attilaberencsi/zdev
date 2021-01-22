@@ -2,14 +2,9 @@
 "BASEINFO":
 {
 "FROM":
-[
-"ZAB_DEV"
-],
+[],
 "ASSOCIATED":
-[
-"ZI_DEVBOOKING",
-"ZI_DEVCOMMENT"
-],
+[],
 "BASE":
 [],
 "ANNO_REF":

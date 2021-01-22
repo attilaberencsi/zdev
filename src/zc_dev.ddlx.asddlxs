@@ -2,23 +2,58 @@
 @UI: {
   headerInfo: { typeName: 'Development',
                 typeNamePlural: 'Developments',
-                title: { type: #STANDARD, label: 'ShortDescription', value: 'DevId' } }
+                title: { type: #STANDARD, value: 'ShortDescription' },
+                description: { value: 'DevId' }
+              }
 
    }
 @UI.presentationVariant: [{ sortOrder: [{ by: 'DevId', direction: #DESC }] }]
 annotate view ZC_Dev with
 {
-  @UI.facet: [ { id:            'Development',
-               purpose:         #STANDARD,
-               type:            #IDENTIFICATION_REFERENCE,
-               label:           'Development',
-               position:        10 },
-             { id:              'Comments',
-               purpose:         #STANDARD,
-               type:            #LINEITEM_REFERENCE,
-               label:           'Comments',
-               position:        20,
-               targetElement:   '_Comment'} ]
+  @UI.facet: [
+  //              { id:            'Development',
+  //               purpose:         #STANDARD,
+  //               type:            #IDENTIFICATION_REFERENCE,
+  //               label:           'Development',
+  //               position:        10 },
+                { label: 'Details',
+                  id:   'idDevColl',
+                  position: 10,
+                  type: #COLLECTION },
+
+                { label: 'About',
+                  parentId: 'idDevColl',
+                  type: #FIELDGROUP_REFERENCE,
+                  targetQualifier: 'idAboutDataFG',
+                  position: 10 },
+
+                { label: 'Schedule',
+                  parentId: 'idDevColl',
+                  type: #FIELDGROUP_REFERENCE,
+                  targetQualifier: 'idScheduleFG',
+                  position: 20 },
+
+                { parentId: 'idDevColl',
+                  type: #FIELDGROUP_REFERENCE,
+                  targetQualifier: 'idLongTextFG',
+                  position: 30 },
+
+                { id:              'Comments',
+                  purpose:         #STANDARD,
+                  type:            #LINEITEM_REFERENCE,
+                  label:           'Comments',
+                  position:        20,
+                  targetElement:   '_Comment'},
+
+                { id:              'WorkTime',
+                  purpose:         #STANDARD,
+                  type:            #LINEITEM_REFERENCE,
+                  label:           'Worktime',
+                  position:        30,
+                  targetElement:   '_Booking'}]
+
+
+  @UI.statusInfo: [{ type: #STANDARD , value: 'OverallStatus'}]
 
   @UI.hidden: true
   DevUuid;
@@ -30,44 +65,59 @@ annotate view ZC_Dev with
 
   @UI: {  lineItem:       [ { position: 20 } ],
           identification: [ { position: 20 } ],
-          selectionField: [ { position: 20 } ] }
+          selectionField: [ { position: 20 } ],
+          fieldGroup:     [ { qualifier: 'idAboutDataFG', position: 20 }] }
   ShortDescription;
 
   @UI: {  lineItem:       [ { position: 30 } ],
           identification: [ { position: 30 } ],
-          selectionField: [ { position: 30 } ] }
+          selectionField: [ { position: 30 } ],
+          fieldGroup:     [ { qualifier: 'idAboutDataFG', position: 40, label: 'User Department' }] }
   UserDepartment;
 
   @UI: {  lineItem:       [ { position: 40 } ],
-          identification: [ { position: 40 } ] }
+          identification: [ { position: 40 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 10 }] }
   PlannedStart;
 
   @UI: {  lineItem:       [ { position: 50 } ],
-        identification: [ { position: 50 } ] }
+          identification: [ { position: 50 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 20 }] }
   PlannedEnd;
 
   @UI: {  lineItem:       [ { position: 60 } ],
-          identification: [ { position: 60 } ] }
+          identification: [ { position: 60 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 40 }] }
+  @EndUserText.label: 'Planned'
   TimePlanned;
 
   @UI: {  lineItem:       [ { position: 70 } ],
-          identification: [ { position: 70 } ] }
+          identification: [ { position: 70 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 50 }] }
+  @EndUserText.label: 'Spent'
   TimeSpent;
 
   @UI: {  lineItem:       [ { position: 80 } ],
-          identification: [ { position: 80 } ] }
+          identification: [ { position: 80 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 60 }] }
+  @EndUserText.label: 'Left'
   TimeLeft;
 
   @UI: {  lineItem:       [ { position: 90 } ],
-          identification: [ { position: 90 } ] }
+          identification: [ { position: 90 } ],
+          fieldGroup:     [ { qualifier: 'idScheduleFG', position: 70 }] }
+  @Consumption.valueHelpDefinition: [{entity: {name: 'I_UnitOfMeasureStdVH', element: 'UnitOfMeasure' }}]
   TimeUnit;
 
 
   @UI: {  lineItem:       [ { position: 100 } ],
-          identification: [ { position: 100 } ] }
+          identification: [ { position: 100 } ],
+          fieldGroup:     [ { qualifier: 'idAboutDataFG', position: 10 }] }
   OverallStatus;
 
-  @UI: { identification: [ { position: 110 } ], multiLineText: true}
+  @UI: {  identification: [ { position: 110 } ],
+          fieldGroup:     [{ qualifier: 'idLongTextFG', position: 30 }],
+          multiLineText: true }
   LongDescription;
 
   @UI: { identification: [ { position: 120 } ] }
@@ -80,6 +130,15 @@ annotate view ZC_Dev with
   LastChangedBy;
   @UI: { identification: [ { position: 140 } ] }
   LastChangedAt;
+
+  @UI:
+    {  lineItem:  [ { position: 200 },
+                    { type: #FOR_ACTION, dataAction: 'AddTimeSpent', label: 'Add Worktime' }
+                  ],
+    identification: [ { position: 200 },
+                      { type: #FOR_ACTION, dataAction: 'AddTimeSpent', label: 'Add Worktime' }
+                    ]
+  }
 
   @UI.hidden: true
   LocalLastChangedAt;

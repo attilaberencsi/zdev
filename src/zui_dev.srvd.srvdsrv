@@ -2,4 +2,6 @@
 define service ZUI_DEV {
   expose ZC_Dev;
   expose ZC_DevComment;
+  expose ZC_DevBooking;
+  expose I_UnitOfMeasureStdVH;
 }

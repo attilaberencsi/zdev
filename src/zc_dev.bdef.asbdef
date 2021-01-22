@@ -8,9 +8,22 @@ define behavior for ZC_Dev //alias <alias_name>
   use delete;
 
   use association _Comment { create; with draft; }
+  use association _Booking { create; with draft; }
+
+  use action AddTimeSpent;
+
+
 }
 
 define behavior for ZC_DevComment //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _Development { with draft; }
+}
+
+define behavior for ZC_DevBooking //alias <alias_name>
 {
   use update;
   use delete;

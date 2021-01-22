@@ -3,12 +3,11 @@
 {
 "FROM":
 [
-"ZAB_DEV"
+"ZAB_DEV_BOOKING"
 ],
 "ASSOCIATED":
 [
-"ZI_DEVBOOKING",
-"ZI_DEVCOMMENT"
+"ZI_DEV"
 ],
 "BASE":
 [],

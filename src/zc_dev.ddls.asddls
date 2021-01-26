@@ -44,6 +44,9 @@ define root view entity ZC_Dev
 
       LocalLastChangedAt,
       
+      @EndUserText.label: 'Progress %'
+      ProgressPercentage,
+            
       /* Associations */
       _Comment : redirected to composition child ZC_DevComment,
       _Booking : redirected to composition child ZC_DevBooking

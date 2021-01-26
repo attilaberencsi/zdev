@@ -28,6 +28,10 @@ define root view entity ZI_Dev
       last_changed_at       as LastChangedAt,
       @Semantics.systemDateTime.localInstanceLastChangedAt: true
       local_last_changed_at as LocalLastChangedAt,
+      
+      -- Development Progress in percantage for charts
+      case time_planned when 0 then 0 else 
+      division( cast (time_spent as abap.dec( 6, 2 )), cast (time_planned as abap.dec( 6, 2 )), 2 ) * 100 end as ProgressPercentage,
 
       --Associations
       _Comment,

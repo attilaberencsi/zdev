@@ -1,17 +1,12 @@
 CLASS lhc_Booking DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
 
-    METHODS getNextCommentNum FOR DETERMINE ON MODIFY
-      IMPORTING keys FOR Booking~getNextCommentNum.
     METHODS calculateTotalTime FOR DETERMINE ON MODIFY
       IMPORTING keys FOR Booking~calculateTotalTime.
 
 ENDCLASS.
 
 CLASS lhc_Booking IMPLEMENTATION.
-
-  METHOD getNextCommentNum.
-  ENDMETHOD.
 
   METHOD calculateTotalTime.
     " Read parent developments of the bookings.

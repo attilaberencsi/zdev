@@ -1,3 +1,4 @@
+// Development Manager
 managed;
 with draft;
 define behavior for ZI_Dev alias Development
@@ -18,10 +19,15 @@ etag master LocalLastChangedAt
   field ( readonly ) TimeSpent, TimeUnit, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) ShortDescription;
 
+  // Add worktime
   action ( features : instance ) AddTimeSpent parameter ZAE_DevActionAddTimeInput result [1] $self;
+
+  // Calculate total worktime on header(development) level
   internal action recalcTotalTime;
 
   determination setDefaultValues on modify { create; }
+
+  // Determine next free development ID
   determination getNextDevID on save { create; }
 
   mapping for zab_dev
@@ -94,7 +100,7 @@ etag master LocalLastChangedAt
   field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) BookingText;
 
-  determination getNextCommentNum on modify { create; }
+  // When worktime bookings are modified, triggers internal action recalcTotalTime
   determination calculateTotalTime on modify { create; delete; update; }
 
 

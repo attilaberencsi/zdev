@@ -1,76 +1,67 @@
 @Metadata.layer: #CORE
 @UI: {
-  headerInfo: { typeName: 'Development',
-                typeNamePlural: 'Developments',
-                title: { type: #STANDARD, value: 'ShortDescription' },
-                description: { value: 'DevId' }
-              }
+  headerInfo: {
+    typeName: 'Development',
+    typeNamePlural: 'Developments',
+    title: { type: #STANDARD, value: 'ShortDescription' },
+    description: { value: 'DevId' } },
+  presentationVariant:
+    [{ sortOrder: [{ by: 'DevId', direction: #DESC }] }]   }
 
-   }
-@UI.presentationVariant: [{ sortOrder: [{ by: 'DevId', direction: #DESC }] }]
-
-@UI.chart: [
-  { title: 'Progress',
+@UI.chart: [{
+    title: 'Progress',
     qualifier:  'chartProgress',
     chartType:  #DONUT,
     measures:   ['ProgressPercentage'],
     measureAttributes: [{
       measure:     'ProgressPercentage' ,
       role: #AXIS_1,
-      asDataPoint: true
-    }]
+      asDataPoint: true }]
 }]
-
 annotate view ZC_Dev with
 {
   @UI.facet: [
-  //              { id:            'Development',
-  //               purpose:         #STANDARD,
-  //               type:            #IDENTIFICATION_REFERENCE,
-  //               label:           'Development',
-  //               position:        10 },
-                { label:    'Header' ,
-                  id :      'idProgressColl' ,
-                  type:     #CHART_REFERENCE ,                  
-                  purpose:  #HEADER ,
-                  targetQualifier: 'chartProgress'},
-                  
-                { label: 'Details',
-                  id:   'idDevColl',
-                  position: 10,
-                  type: #COLLECTION },
+    { label:    'Header' ,
+      id :      'idProgressColl' ,
+      type:     #CHART_REFERENCE ,
+      purpose:  #HEADER ,
+      targetQualifier: 'chartProgress'},
 
-                { label: 'About',
-                  parentId: 'idDevColl',
-                  type: #FIELDGROUP_REFERENCE,
-                  targetQualifier: 'idAboutDataFG',
-                  position: 10 },
+    { label: 'Details',
+      id:   'idDevColl',
+      position: 10,
+      type: #COLLECTION },
 
-                { label: 'Schedule',
-                  parentId: 'idDevColl',
-                  type: #FIELDGROUP_REFERENCE,
-                  targetQualifier: 'idScheduleFG',
-                  position: 20 },
+    { label: 'About',
+      parentId: 'idDevColl',
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'idAboutDataFG',
+      position: 10 },
 
-                { parentId: 'idDevColl',
-                  type: #FIELDGROUP_REFERENCE,
-                  targetQualifier: 'idLongTextFG',
-                  position: 30 },
+    { label: 'Schedule',
+      parentId: 'idDevColl',
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'idScheduleFG',
+      position: 20 },
 
-                { id:              'Comments',
-                  purpose:         #STANDARD,
-                  type:            #LINEITEM_REFERENCE,
-                  label:           'Comments',
-                  position:        20,
-                  targetElement:   '_Comment'},
+    { parentId: 'idDevColl',
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'idLongTextFG',
+      position: 30 },
 
-                { id:              'WorkTime',
-                  purpose:         #STANDARD,
-                  type:            #LINEITEM_REFERENCE,
-                  label:           'Worktime',
-                  position:        30,
-                  targetElement:   '_Booking'}]
+    { id:              'Comments',
+      purpose:         #STANDARD,
+      type:            #LINEITEM_REFERENCE,
+      label:           'Comments',
+      position:        20,
+      targetElement:   '_Comment'},
 
+    { id:              'WorkTime',
+      purpose:         #STANDARD,
+      type:            #LINEITEM_REFERENCE,
+      label:           'Worktime',
+      position:        30,
+      targetElement:   '_Booking'} ]
 
   @UI.statusInfo: [{ type: #STANDARD , value: 'OverallStatus'}]
 
@@ -113,9 +104,9 @@ annotate view ZC_Dev with
   @UI: {  lineItem:       [ { position: 70 } ],
           identification: [ { position: 70 } ],
           fieldGroup:     [ { qualifier: 'idScheduleFG', position: 50 }] }
-//  @UI.dataPoint: { title: 'Time Spent' }
-//  @UI.lineItem: [ { type: #AS_DATAPOINT } ]
-  @EndUserText.label: 'Spent'  
+  //  @UI.dataPoint: { title: 'Time Spent' }
+  //  @UI.lineItem: [ { type: #AS_DATAPOINT } ]
+  @EndUserText.label: 'Spent'
   TimeSpent;
 
   @UI: {  lineItem:       [ { position: 80 } ],
@@ -153,19 +144,19 @@ annotate view ZC_Dev with
   LastChangedAt;
 
 
-  @UI.lineItem: [{  
+  @UI.lineItem: [{
     position:       110,
     type:           #AS_CHART ,
     valueQualifier: 'chartProgress',
     label:          'Progress' } ]
-  @UI.dataPoint: {  
+  @UI.dataPoint: {
     criticalityCalculation:{
     improvementDirection:   #TARGET ,
     deviationRangeLowValue: 50.00,
-    toleranceRangeLowValue: 75.00, 
+    toleranceRangeLowValue: 75.00,
     toleranceRangeHighValue: 100.00,
     deviationRangeHighValue: 125.00
-    } }    
+    } }
   ProgressPercentage;
 
   @UI:

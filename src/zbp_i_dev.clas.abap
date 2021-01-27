@@ -1,3 +1,4 @@
+"! <p class="shorttext synchronized" lang="en">Behavior Implementation for ZI_DEV</p>
 CLASS zbp_i_dev DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_dev.
   PUBLIC SECTION.
     CONSTANTS:

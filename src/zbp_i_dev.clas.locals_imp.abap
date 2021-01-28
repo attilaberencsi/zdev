@@ -27,6 +27,12 @@ CLASS lhc_Development DEFINITION INHERITING FROM cl_abap_behavior_handler.
     "! <p>Recalculate total worktime spent on development</p>
     METHODS recalcTotalTime FOR MODIFY
       IMPORTING keys FOR ACTION Development~recalcTotalTime.
+    METHODS get_global_features FOR GLOBAL FEATURES
+      IMPORTING REQUEST requested_features FOR Development RESULT result.
+
+    "! <p>Collects statistics of developments</p>
+    METHODS readStatistics FOR MODIFY
+      IMPORTING keys FOR ACTION Development~readStatistics RESULT result.
 
 ENDCLASS.
 
@@ -139,6 +145,9 @@ CLASS lhc_Development IMPLEMENTATION.
             %cid        = count
             %is_draft = <development>-%is_draft
             DevUuid     = <development>-DevUuid
+            activitydate =  SWITCH #( parameter_in-activitydate
+              WHEN '00000000' THEN cl_abap_context_info=>get_system_date( )
+              ELSE parameter_in-activitydate )
             TimeUnit    = parameter_in-timeunit
             TimeSpent   = parameter_in-timespent
             BookingText = parameter_in-bookingtext
@@ -147,12 +156,15 @@ CLASS lhc_Development IMPLEMENTATION.
 
     ENDLOOP.
 
+    "This triggers automatically recalculation of totals through
+    "the determination calculateTotalTime
     MODIFY ENTITIES OF ZI_Dev IN LOCAL MODE
       ENTITY Development
       CREATE BY \_Booking
            FIELDS (
              BookingText
              DevUuid
+             ActivityDate
              TimeSpent
              TimeUnit )
            WITH new_bookings
@@ -160,14 +172,14 @@ CLASS lhc_Development IMPLEMENTATION.
       FAILED failed
       REPORTED reported.
 
-    "Trigger recalculation of Total worktime on header level
-    MODIFY ENTITIES OF ZI_Dev IN LOCAL MODE
-    ENTITY Development
-      EXECUTE recalcTotalTime
-      FROM CORRESPONDING #( developments )
-    MAPPED DATA(action_mapped)
-    REPORTED DATA(action_reported)
-    FAILED DATA(action_failed).
+*    "Trigger recalculation of Total worktime on header level
+*    MODIFY ENTITIES OF ZI_Dev IN LOCAL MODE
+*    ENTITY Development
+*      EXECUTE recalcTotalTime
+*      FROM CORRESPONDING #( developments )
+*    MAPPED DATA(action_mapped)
+*    REPORTED DATA(action_reported)
+*    FAILED DATA(action_failed).
 
     "Return data with totals updated
     READ ENTITIES OF ZI_Dev IN LOCAL MODE
@@ -176,7 +188,8 @@ CLASS lhc_Development IMPLEMENTATION.
       RESULT developments.
 
     result = VALUE #( FOR development IN developments
-      ( %tky = development-%tky %param = development ) ).
+      ( %tky = development-%tky
+        %param = CORRESPONDING #( development ) ) ).
 
   ENDMETHOD.
 
@@ -267,6 +280,37 @@ CLASS lhc_Development IMPLEMENTATION.
 
     ENDLOOP.
 
+  ENDMETHOD.
+
+  METHOD get_global_features.
+  ENDMETHOD.
+
+  METHOD readStatistics.
+    "Collects statistics of developments
+    DATA(today) = cl_abap_context_info=>get_system_date( ).
+    DATA(this_year_start) = CONV d( |{ today(4) }0101| ).
+    DATA(this_year_end) = CONV d( |{ today(4) }1231| ).
+
+    SELECT SUM( TimeSpentConverted )
+      FROM ZI_DevWorktime( to_unit = @zbp_i_dev=>co_time_unit-statistics )
+      WHERE ActivityDate BETWEEN @this_year_start AND @this_year_end
+      INTO TABLE @DATA(worktime_this_year).
+
+    DATA(last_year_start) = CONV d( |{ today(4) - 1 }0101| ).
+    DATA(last_year_end) = CONV d( |{ today(4) - 1 }1231| ).
+
+    SELECT SUM( TimeSpentConverted )
+      FROM ZI_DevWorktime( to_unit = @zbp_i_dev=>co_time_unit-statistics )
+      WHERE ActivityDate BETWEEN @last_year_start AND @last_year_end
+      INTO TABLE @DATA(worktime_last_year).
+
+    LOOP AT keys INTO DATA(key).
+      APPEND VALUE #( %cid = key-%cid %param = VALUE #(
+        TimeSpentThisYear = worktime_this_year[ 1 ]
+        TimeSpentLastYear = worktime_last_year[ 1 ]
+        TimeUnit  = zbp_i_dev=>co_time_unit-statistics
+      ) ) TO result.
+    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.

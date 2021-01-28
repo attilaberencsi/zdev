@@ -3,9 +3,9 @@
   headerInfo: {
     typeName: 'Worktime',
     typeNamePlural: 'Bookings',
-    title: { type: #STANDARD, value: 'BookingText' } },         
-  presentationVariant: 
-    [{ sortOrder: [{ by: 'CreatedAt', direction: #DESC }] }] }   
+    title: { type: #STANDARD, value: 'BookingText' } },
+  presentationVariant:
+    [{ sortOrder: [{ by: 'CreatedAt', direction: #DESC }] }] }
 annotate view ZC_DevBooking with
 {
   @UI.facet: [
@@ -21,6 +21,9 @@ annotate view ZC_DevBooking with
   DevUuid;
   @UI.hidden: true
   BookCount;
+  @UI: { lineItem:      [ { position: 10 } ],
+       identification:  [ { position: 10 } ] }
+  ActivityDate;
   @UI: { lineItem:       [ { position: 20 } ],
          identification: [ { position: 20 } ] }
   TimeSpent;

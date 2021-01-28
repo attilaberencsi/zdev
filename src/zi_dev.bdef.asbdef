@@ -19,8 +19,14 @@ etag master LocalLastChangedAt
   field ( readonly ) TimeSpent, TimeUnit, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
   field ( mandatory ) ShortDescription;
 
-  // Add worktime
+  // Add worktime.
+  // If the result is not $self even if Zi_Dev is set and returned with up to date result data
+  // the UI is not refreshed automatically. For navigations, side effects are neeeded even in case of
+  // $self is the result, to refresh data.
   action ( features : instance ) AddTimeSpent parameter ZAE_DevActionAddTimeInput result [1] $self;
+
+  // Collects statistics of developments
+  static action ( features : global ) readStatistics result [1] ZAE_DevActionGetStatResult;
 
   // Calculate total worktime on header(development) level
   internal action recalcTotalTime;
@@ -109,6 +115,7 @@ etag master LocalLastChangedAt
     BookingUuid = booking_uuid;
     DevUuid = dev_uuid;
     BookCount = book_count;
+    ActivityDate = date_of_avtivity;
     TimeSpent = time_spent;
     TimeUnit = time_unit;
     BookingText = booking_text;

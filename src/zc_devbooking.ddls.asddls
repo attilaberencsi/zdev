@@ -7,6 +7,7 @@ define view entity ZC_DevBooking
   key BookingUuid,
       DevUuid,
       BookCount,
+      ActivityDate,
       TimeSpent,
       TimeUnit,
       BookingText,

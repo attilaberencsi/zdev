@@ -12,6 +12,7 @@ define behavior for ZC_Dev //alias <alias_name>
   use association _Booking { create; with draft; }
 
   use action AddTimeSpent;
+  use action readStatistics;
 
 
 }

@@ -15,6 +15,7 @@ CLASS zbp_i_dev DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_dev.
       BEGIN OF co_time_unit,
         booking     TYPE zde_unit VALUE 'H',"Hours
         development TYPE zde_unit VALUE '10 ',"Days
+        statistics  TYPE zde_unit VALUE '10 ',"Days
       END OF co_time_unit.
 ENDCLASS.
 

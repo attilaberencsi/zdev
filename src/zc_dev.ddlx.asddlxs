@@ -65,6 +65,11 @@ annotate view ZC_Dev with
 
   @UI.statusInfo: [{ type: #STANDARD , value: 'OverallStatus'}]
 
+  @UI.identification: [ 
+    { position: 200 },
+    { type: #FOR_ACTION, dataAction: 'readStatistics', label: 'Show Statistics' }
+  ]
+  
   @UI.hidden: true
   DevUuid;
 
@@ -167,7 +172,6 @@ annotate view ZC_Dev with
                       { type: #FOR_ACTION, dataAction: 'AddTimeSpent', label: 'Add Worktime' }
                     ]
   }
-
 
   @UI.hidden: true
   LocalLastChangedAt;

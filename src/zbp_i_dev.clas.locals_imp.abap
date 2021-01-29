@@ -106,7 +106,7 @@ CLASS lhc_Development IMPLEMENTATION.
     "This method is to add time spent/booking on development
 
     DATA:
-      quan_booking TYPE ZAE_DevActionAddTimeInput-timespent,
+      quan_booking TYPE ZAE_DevActionAddTimeInput-worktime,
       new_bookings TYPE TABLE FOR CREATE zi_dev\\Development\_Booking.
 
 
@@ -123,7 +123,7 @@ CLASS lhc_Development IMPLEMENTATION.
       "DATA(parameter_in) = keys[ DevUuid = <development>-%key-DevUuid ]-%param.
       DATA(parameter_in) = keys[ KEY entity COMPONENTS %key = <development>-%key ]-%param. "Faster access, really ? :)
 
-      IF parameter_in-timespent IS INITIAL OR  parameter_in-timeunit IS INITIAL.
+      IF parameter_in-worktime IS INITIAL OR parameter_in-timeunit IS INITIAL.
         APPEND VALUE #( %tky = <development>-%tky ) TO failed-development.
         APPEND VALUE #(
           %tky        = <development>-%tky
@@ -149,7 +149,7 @@ CLASS lhc_Development IMPLEMENTATION.
               WHEN '00000000' THEN cl_abap_context_info=>get_system_date( )
               ELSE parameter_in-activitydate )
             TimeUnit    = parameter_in-timeunit
-            TimeSpent   = parameter_in-timespent
+            TimeSpent   = parameter_in-worktime
             BookingText = parameter_in-bookingtext
          ) )
       ) TO new_bookings.
@@ -214,8 +214,8 @@ CLASS lhc_Development IMPLEMENTATION.
   METHOD recalcTotalTime.
     "Recalculation of total time spent on this development
     DATA:
-      dev_time_total TYPE ZAE_DevActionAddTimeInput-timespent,
-      time_out       TYPE ZAE_DevActionAddTimeInput-timespent.
+      dev_time_total TYPE ZAE_DevActionAddTimeInput-worktime,
+      time_out       TYPE ZAE_DevActionAddTimeInput-worktime.
 
     LOOP AT keys INTO DATA(dev_key).
 

@@ -13,7 +13,7 @@ define abstract entity ZAE_DevActionAddTimeInput
         lineItem   :    [ { position: 10 } ],
         identification: [ { position: 10 } ],
         selectionField: [ { position: 10 } ] }
-  key TimeSpent    : abap.quan(6,2);
+  key WorkTime    : abap.quan(6,2);
 
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_UnitOfMeasureStdVH', element: 'UnitOfMeasure' }}]
       @UI          : {
